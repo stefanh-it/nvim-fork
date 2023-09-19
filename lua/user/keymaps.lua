@@ -18,6 +18,14 @@ vim.g.maplocalleader = " "
 --   term_mode = "t",
 --   command_mode = "c",
 
+-- Harpoon
+
+local mark = require ("harpoon.mark")
+local ui = require ("harpoon.ui")
+keymap("n", "<leader>mh", mark.add_file )
+keymap("n", "<A-h>", ui.toggle_quick_menu )
+
+
 -- Normal --
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
