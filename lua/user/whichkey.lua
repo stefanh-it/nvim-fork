@@ -139,6 +139,7 @@ which_key.add({
   { '<leader>lw', '<cmd>Telescope diagnostics<cr>', desc = 'Workspace Diagnostics' },
   { '<leader>lR', '<cmd>lua vim.lsp.buf.references()<CR>', desc = 'References' },
   { '<leader>lf', '<cmd>lua vim.lsp.buf.format{async=true}<cr>', desc = 'Format' },
+  { '<leader>lL', '<cmd>LintRuff<cr>', desc = 'Lint (ruff)' },
   { '<leader>lK', '<cmd>lua vim.lsp.buf.hover()<CR>', desc = 'Hover'},
   { '<leader>li', '<cmd>LspInfo<cr>', desc = 'Info' },
   { '<leader>lI', '<cmd>lua vim.lsp.buf.implementation()<cr>', desc = 'Implementations' },

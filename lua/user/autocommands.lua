@@ -18,6 +18,7 @@ vim.cmd [[
     autocmd!
     autocmd FileType markdown setlocal wrap
     autocmd FileType markdown setlocal spell
+    autocmd FileType markdown setlocal spelllang=en_us,de_at
     autocmd BufWritePost *.md !markdownlint %
   augroup end
 
@@ -26,10 +27,11 @@ vim.cmd [[
     autocmd FileType python setlocal wrap
   augroup end
 
-  augroup _python_env
-  autocmd!
-  autocmd BufEnter,BufRead,BufNewFile * if filereadable('env/bin/activate') | silent exec '!source env/bin/activate.fish' | endif
-  augroup end
+  " augroup _python_env
+  " autocmd!
+  " autocmd BufEnter,BufRead,BufNewFile *.py if filereadable('env/bin/activate') | silent exec '!source env/bin/activate.fish' | 
+  " \ echo "Virtual env found!" | endif
+  " augroup end
 
   augroup _auto_resize
     autocmd!
@@ -46,6 +48,21 @@ vim.cmd [[
     autocmd!
     autocmd InsertCharPre * silent! call copilot#Start ()
   augroup end
+
+augroup BladeFormatter
+  autocmd!
+  autocmd BufWritePre *.blade.php call FormatBlade()
+augroup END
+
+function! FormatBlade() abort
+  let l:content = join(getline(1, '$'), "\n")
+  let l:formatted = system('blade-formatter --stdin --indent-size=4 --indent-style=space', l:content)
+  if v:shell_error == 0
+    call setline(1, split(l:formatted, "\n"))
+  else
+    echohl ErrorMsg | echom "blade-formatter failed" | echohl None
+  endif
+endfunction
 
 
 ]]

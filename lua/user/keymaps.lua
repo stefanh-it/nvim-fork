@@ -78,3 +78,14 @@ keymap("x", "<A-k>", ":m '<-2<CR>gv=gv", opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
+-- smart screen‐line movement
+local expr_opts = vim.tbl_extend("force", opts, { expr = true })
+keymap({ "n", "o", "x" }, "j",
+  function() return vim.v.count == 0 and "gj" or "j" end,
+  expr_opts
+)
+keymap({ "n", "o", "x" }, "k",
+  function() return vim.v.count == 0 and "gk" or "k" end,
+  expr_opts
+)
+

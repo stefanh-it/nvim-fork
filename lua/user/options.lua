@@ -22,8 +22,8 @@ local options = {
   updatetime = 300,                        -- faster completion (4000ms default)
   writebackup = false,                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
   expandtab = true,                        -- convert tabs to spaces
-  shiftwidth = 2,                          -- the number of spaces inserted for each indentation
-  tabstop = 2,                             -- insert 2 spaces for a tab
+  shiftwidth = 4,                          -- the number of spaces inserted for each indentation
+  tabstop = 4,                             -- insert 2 spaces for a tab
   cursorline = true,                       -- highlight the current line
   number = true,                           -- set numbered lines
   relativenumber = true,                  -- set relative numbered lines
@@ -50,6 +50,10 @@ vim.opt.formatoptions:remove({ "c", "r", "o" })        -- don't insert the curre
 vim.opt.runtimepath:remove("/usr/share/vim/vimfiles")  -- separate vim plugins from neovim in case vim still in use
 -- vim.cmd("verbose set shiftwidth?")
 vim.g.python3_host_prog = '/usr/bin/python3'
+
+-- Disable unused providers to eliminate warnings
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 vim.cmd [[highlight DiagnosticUnnecessary guifg=#c4c7d4]]
 vim.cmd [[highlight Comments guifg=#bec2d6 gui=italic cterm=italic]]

@@ -1,3 +1,3 @@
-require'lspconfig'.dockerls.setup{
+return {
   cmd = { "docker-langserver", "--stdio" },
 }

@@ -1,3 +1,6 @@
+if _G.__LSP_BOOTSTRAP_DONE__ then return end
+_G.__LSP_BOOTSTRAP_DONE__ = true
+
 local servers = {
 	"lua_ls",
 	-- "cssls",
@@ -6,7 +9,9 @@ local servers = {
 	"pyright",
 	-- "bashls",
 	"jsonls",
+    "ruff"
 	-- "yamlls",
+    -- "ts_ls", "eslint", "intelephense", "emmet_ls", "gopls", "bashls", "dockerls", "html",
 }
 
 local settings = {
@@ -25,28 +30,28 @@ local settings = {
 require("mason").setup(settings)
 require("mason-lspconfig").setup({
 	ensure_installed = servers,
-	automatic_installation = true,
+	automatic_installation = false,
 })
 
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
-	return
-end
+_G.__LSP_SERVER_DONE__ = _G.__LSP_SERVER_DONE__ or {}
 
-local opts = {}
+for _, server in ipairs(servers) do
+  server = vim.split(server, "@")[1]
 
-for _, server in pairs(servers) do
-	opts = {
-		on_attach = require("user.lsp.handlers").on_attach,
-		capabilities = require("user.lsp.handlers").capabilities,
-	}
+  if not _G.__LSP_SERVER_DONE__[server] then
+    local opts = {
+      on_attach = require("user.lsp.handlers").on_attach,
+      capabilities = require("user.lsp.handlers").capabilities,
+    }
 
-	server = vim.split(server, "@")[1]
+    local ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
+    if ok and type(conf_opts) == "table" then
+      opts = vim.tbl_deep_extend("force", opts, conf_opts)
+    end
 
-	local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
-	if require_ok then
-		opts = vim.tbl_deep_extend("force", conf_opts, opts)
-	end
-
-	lspconfig[server].setup(opts)
+    -- Use new Neovim 0.11 API
+    vim.lsp.config(server, opts)
+    vim.lsp.enable(server)
+    _G.__LSP_SERVER_DONE__[server] = true
+  end
 end

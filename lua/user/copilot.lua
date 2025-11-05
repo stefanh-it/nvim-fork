@@ -17,6 +17,11 @@ panel = {
   suggestion = {
     enabled = false,
     auto_trigger = true,
+    -- inline for the current line
+    inline = {
+      enabled = true,
+      max_lines = 3,
+    },
     debounce = 75,
     keymap = {
       accept = "<M-l>",
